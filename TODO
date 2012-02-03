@@ -67,19 +67,12 @@ Setting UP Lxc Host for puppet
 - copy kickstart scripts
 - add epel repo
 
-Changing hostname
-------------------
-
-- hostname command
-- change etc/hosts
-
 General
 --------
 
-- Remove duplication of runners
 - Remove initialization of runners from Node class
 - Make everything work with ubuntu and centos
 - Upload lxc images somewhere
 - Update README files
 - Remove creation of node before every feature
-- move provision vagrant script to prepare host 
+- Remove lxc command from node into external class (more testable)
