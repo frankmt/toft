@@ -47,14 +47,10 @@ CQWv13UgQjiHgQILXSb7xdzpWK1wpDoqIEWQugRyPQDeZhPWVbB4Lg==
       @hostname = hostname
       @ip = options[:ip]
       @netmask = options[:netmask]
-      unless exists?
-        conf_file = generate_lxc_config
-        lxc_command.create({
-          :hostname => hostname,
-          :conf => conf_file,
-          :type => options[:type]
-        })
-      end
+      @lxc_command = lxc_command
+      
+      create_lxc_node(hostname, options[:type]) unless node_exists?
+
       @chef_runner = Toft::Chef::ChefRunner.new("#{rootfs}") do |chef_command|
         run_ssh chef_command
       end
@@ -69,7 +65,7 @@ CQWv13UgQjiHgQILXSb7xdzpWK1wpDoqIEWQugRyPQDeZhPWVbB4Lg==
       return @hostname
     end
     
-    def exists?
+    def node_exists?
       cmd("lxc-ls") =~ /#{@hostname}/
     end
 
@@ -158,6 +154,16 @@ CQWv13UgQjiHgQILXSb7xdzpWK1wpDoqIEWQugRyPQDeZhPWVbB4Lg==
     end
 
     private
+
+    def create_lxc_node(hostname, type)
+      conf_file = generate_lxc_config
+      @lxc_command.create({
+        :hostname => hostname,
+        :conf => conf_file,
+        :type => type
+      })
+    end
+
     def rootfs
       "/var/lib/lxc/#{@hostname}/rootfs"
     end
