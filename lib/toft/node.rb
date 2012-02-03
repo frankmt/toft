@@ -66,7 +66,7 @@ CQWv13UgQjiHgQILXSb7xdzpWK1wpDoqIEWQugRyPQDeZhPWVbB4Lg==
     end
     
     def node_exists?
-      cmd("lxc-ls") =~ /#{@hostname}/
+      @lxc_command.exists?(@hostname)
     end
 
     def start
