@@ -3,6 +3,7 @@ require 'toft/file_checker'
 require 'toft/chef/chef_attributes'
 require 'toft/chef/chef_runner'
 require 'toft/puppet/puppet_runner'
+require 'toft/lxc_command'
 
 module Toft
   DYNAMIC_IP = "0.0.0.0"

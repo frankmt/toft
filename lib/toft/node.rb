@@ -42,14 +42,18 @@ CQWv13UgQjiHgQILXSb7xdzpWK1wpDoqIEWQugRyPQDeZhPWVbB4Lg==
     include Observable
     include Toft::CommandExecutor
 
-    def initialize(hostname, options = {})
+    def initialize(lxc_command, hostname, options = {})
       options = {:ip => DYNAMIC_IP, :netmask => "24", :type => "natty"}.merge(options)
       @hostname = hostname
       @ip = options[:ip]
       @netmask = options[:netmask]
       unless exists?
         conf_file = generate_lxc_config
-        cmd! "lxc-create -n #{hostname} -f #{conf_file} -t #{options[:type].to_s}" 
+        lxc_command.create({
+          :hostname => hostname,
+          :conf => conf_file,
+          :type => options[:type]
+        })
       end
       @chef_runner = Toft::Chef::ChefRunner.new("#{rootfs}") do |chef_command|
         run_ssh chef_command
