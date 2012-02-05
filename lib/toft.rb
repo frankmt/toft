@@ -4,6 +4,7 @@ require 'toft/chef/chef_attributes'
 require 'toft/chef/chef_runner'
 require 'toft/puppet/puppet_runner'
 require 'toft/lxc_command'
+require 'toft/command_executor'
 
 module Toft
   DYNAMIC_IP = "0.0.0.0"
@@ -14,7 +15,8 @@ module Toft
   end
   
   def create_node(hostname, options = {})
-    NodeController.instance.create_node(hostname, options)
+    lxc_command = Toft::LxcCommand.new(Toft::CommandExecutor.new)
+    NodeController.instance.create_node(lxc_command, hostname, options)
   end
   
   def find(name)
