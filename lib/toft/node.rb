@@ -42,12 +42,12 @@ CQWv13UgQjiHgQILXSb7xdzpWK1wpDoqIEWQugRyPQDeZhPWVbB4Lg==
     include Observable
     include Toft::CommandExecutor
 
-    def initialize(lxc_command, hostname, options = {})
+    def initialize(hostname, options = {})
       options = {:ip => DYNAMIC_IP, :netmask => "24", :type => "natty"}.merge(options)
       @hostname = hostname
       @ip = options[:ip]
       @netmask = options[:netmask]
-      @lxc_command = lxc_command
+      @lxc_command = options[:lxc_command] || Toft::LxcCommand.new
       
       create_lxc_node(hostname, options[:type]) unless node_exists?
 

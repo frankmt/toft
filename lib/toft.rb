@@ -15,8 +15,7 @@ module Toft
   end
   
   def create_node(hostname, options = {})
-    lxc_command = Toft::LxcCommand.new(Toft::CommandExecutor.new)
-    NodeController.instance.create_node(lxc_command, hostname, options)
+    NodeController.instance.create_node(hostname, options)
   end
   
   def find(name)
